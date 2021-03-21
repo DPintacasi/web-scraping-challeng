@@ -11,14 +11,30 @@ import pymongo
 def scrape():
     output = {}
 
-    ##### NASA Mars News ######
+    ##### NASA Mars News ######  
 
+    # url = "https://mars.nasa.gov/news/"
+
+    # response = requests.get(url)
+    # soup_news = bs(response.text, "html.parser")
+
+    # latest_title = soup_news.find("div", class_="content_title").a.text.strip()
+    # latest_p = soup_news.find("div", class_="rollover_description_inner").text.strip()
+
+    #alternative that doesn't currently work
     url = "https://mars.nasa.gov/news/"
-    response = requests.get(url)
-    soup_news = bs(response.text, 'html.parser')
+    executable_path = {'executable_path': ChromeDriverManager().install()}
+    browser = Browser('chrome', **executable_path, headless=False)
 
-    latest_title = soup_news.find("div", class_="content_title").a.text.strip()
-    latest_p = soup_news.find("div", class_="rollover_description_inner").text.strip()
+    browser.visit(url)
+    html = browser.html
+    soup_news = bs(html, 'html.parser')
+    browser.quit()
+
+    slide = soup_news.find("li", class_="slide")
+  
+    latest_title = slide.find("div", class_="content_title").a.text
+    latest_p = slide.find("div", class_="article_teaser_body").text
 
     output['latest_title'] = latest_title
     output['latest_p'] = latest_p
@@ -54,7 +70,6 @@ def scrape():
     ##### USGS Astrogeology ######
 
     url = 'https://astrogeology.usgs.gov/search/results?q=hemisphere+enhanced&k1=target&v1=Mars'
-
     executable_path = {'executable_path': ChromeDriverManager().install()}
     browser = Browser('chrome', **executable_path, headless=False)
 
