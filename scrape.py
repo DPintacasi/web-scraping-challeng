@@ -65,7 +65,7 @@ def scrape():
 
     url = "https://space-facts.com/mars/"
     tables = pd.read_html(url)
-    output['data'] = tables[0].to_html(header = False)
+    output['facts'] = tables[0].to_html(header = False, index = False)
 
     ##### USGS Astrogeology ######
 
