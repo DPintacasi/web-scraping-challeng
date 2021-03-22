@@ -5,7 +5,6 @@ from bs4 import BeautifulSoup as bs
 import requests
 from splinter import Browser
 from webdriver_manager.chrome import ChromeDriverManager
-import pymongo
 
 
 def scrape():
@@ -13,15 +12,6 @@ def scrape():
 
     ##### NASA Mars News ######  
 
-    # url = "https://mars.nasa.gov/news/"
-
-    # response = requests.get(url)
-    # soup_news = bs(response.text, "html.parser")
-
-    # latest_title = soup_news.find("div", class_="content_title").a.text.strip()
-    # latest_p = soup_news.find("div", class_="rollover_description_inner").text.strip()
-
-    #alternative that doesn't currently work
     url = "https://mars.nasa.gov/news/"
     executable_path = {'executable_path': ChromeDriverManager().install()}
     browser = Browser('chrome', **executable_path, headless=False)
